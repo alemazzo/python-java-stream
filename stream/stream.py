@@ -1,13 +1,17 @@
+from functools import cmp_to_key
+
 from .iterators import IteratorUtils
 from .optional import Optional
-
-from functools import cmp_to_key
 
 
 class Stream():
 
     """
-    Python Stream Class
+    A sequence of elements supporting sequential operations. The following example illustrates an aggregate operation using Stream:
+        result = Stream(elements)
+                        .filter(lambda w: w.getColor() == RED)
+                        .map(lambda w: w.getWeight())
+                        .sum()
     """
 
     """
@@ -28,7 +32,7 @@ class Stream():
         '''
         Returns a sequential Stream containing a single element.
 
-        :param T elem: the single element 
+        :param T elem: the single element
         :return: a singleton sequential stream
         '''
         return Stream([elem])
@@ -48,7 +52,7 @@ class Stream():
         '''
         Returns a sequential Stream containing a single element, if non-null, otherwise returns an empty Stream.
 
-        :param T elem: the single element 
+        :param T elem: the single element
         :return: a stream with a single element if the specified element is non-null, otherwise an empty stream
         '''
         return Stream.of(elem) if elem is not None else Stream.empty()
@@ -56,7 +60,7 @@ class Stream():
     @staticmethod
     def iterate(seed, operator):
         '''
-        Returns an infinite sequential ordered Stream produced by iterative application of a function f to an initial element seed, producing a Stream consisting of seed, f(seed), f(f(seed)), etc. 
+        Returns an infinite sequential ordered Stream produced by iterative application of a function f to an initial element seed, producing a Stream consisting of seed, f(seed), f(f(seed)), etc.
 
         :param T seed: the initial element
         :param UnaryOperator operator: a function to be applied to the previous element to produce a new element
@@ -234,7 +238,7 @@ class Stream():
 
     def findAny(self):
         '''
-        Returns an Optional describing some element of the stream, or an empty Optional if the stream is empty. 
+        Returns an Optional describing some element of the stream, or an empty Optional if the stream is empty.
 
         :return: an Optional describing some element of this stream, or an empty Optional if the stream is empty
         '''
@@ -273,6 +277,14 @@ class Stream():
         :return: an Optional describing the maximum element of this stream, or an empty Optional if the stream is empty
         '''
         return Optional.ofNullable(max(self.__iterable, key=cmp_to_key(comparator)))
+
+    def sum(self):
+        '''
+        Returns the sum of all elements of this stream. This is a special case of a reduction.
+
+        :return: an Optional describing the sum of all the elements of this stream, or an empty Optional if the stream is empty
+        '''
+        return self.reduce(lambda x, y: x + y)
 
     def count(self):
         '''
