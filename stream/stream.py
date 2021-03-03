@@ -186,7 +186,8 @@ class Stream():
         :return: the new stream
         '''
         return Stream(sorted(
-            self.__iterable, key=cmp_to_key(comparator)))
+            self.__iterable, key=cmp_to_key(comparator))) if comparator is not None else Stream(sorted(
+                self.__iterable))
 
     def peek(self, consumer):
         '''
@@ -275,7 +276,7 @@ class Stream():
         :param Comparator comparator: Comparator to compare elements of this stream - if null default comparator is used
         :return: an Optional describing the minimum element of this stream, or an empty Optional if the stream is empty
         '''
-        return Optional.ofNullable(min(self.__iterable, key=cmp_to_key(comparator)))
+        return Optional.ofNullable(min(self.__iterable, key=cmp_to_key(comparator))) if comparator is not None else Optional.ofNullable(min(self.__iterable))
 
     def max(self, comparator=None):
         '''
@@ -284,7 +285,7 @@ class Stream():
         :param Comparator comparator: Comparator to compare elements of this stream - if null default comparator is used
         :return: an Optional describing the maximum element of this stream, or an empty Optional if the stream is empty
         '''
-        return Optional.ofNullable(max(self.__iterable, key=cmp_to_key(comparator)))
+        return Optional.ofNullable(max(self.__iterable, key=cmp_to_key(comparator))) if comparator is not None else Optional.ofNullable(max(self.__iterable))
 
     def sum(self):
         '''
