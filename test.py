@@ -30,9 +30,13 @@ class TestStream(unittest.TestCase):
 
     def test_sorted(self):
         s = Stream.of(1, 2, 5, 4, 3)
-        self.assertEqual(s.sorted().iterator(), [1, 2, 3, 4, 5])
+        self.assertEqual(s.sorted().toList(), [1, 2, 3, 4, 5])
         self.assertEqual(
-            s.sorted(lambda x, y: y - x).iterator(), [5, 4, 3, 2, 1])
+            s.sorted(lambda x, y: y - x).toList(), [5, 4, 3, 2, 1])
+
+    def test_distinct(self):
+        s = Stream.of(1, 1, 2, 2, 3, 4)
+        self.assertEqual(s.distinct().toList(), [1, 2, 3, 4])
 
 
 if __name__ == '__main__':
