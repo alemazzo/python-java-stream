@@ -14,4 +14,6 @@ setup(name='Python Java Stream',
       author_email='developer.alessandro.mazzoli@gmail.com',
       license='GNU',
       packages=find_packages(),
+      keywords=['iterator', 'generator', 'stream', 'data',
+                'functional', 'list', 'processing', 'java', 'filter', 'map', 'reduce', 'processing'],
       zip_safe=False)
