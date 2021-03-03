@@ -98,10 +98,7 @@ class Stream():
             function(elem)
 
     def anyMatch(self, predicate):
-        for elem in self.__iterable:
-            if(predicate(elem)):
-                return True
-        return False
+        return any([predicate(elem) for elem in self.__iterable])
 
     def allMatch(self, predicate):
         return all([predicate(elem) for elem in self.__iterable])
