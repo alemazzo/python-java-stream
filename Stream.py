@@ -1,6 +1,6 @@
-
-
-from StreamUtils import StreamUtils
+from IteratorUtils import IteratorUtils
+from functools import cmp_to_key
+from Optional import Optional
 
 
 class Stream():
@@ -31,15 +31,15 @@ class Stream():
 
     @staticmethod
     def iterate(seed, operator):
-        return Stream(StreamUtils.iterate(seed, operator))
+        return Stream(IteratorUtils.iterate(seed, operator))
 
     @staticmethod
     def generate(generator):
-        return Stream(StreamUtils.generate(generator))
+        return Stream(IteratorUtils.generate(generator))
 
     @staticmethod
     def concat(*streams):
-        return Stream(StreamUtils.concat(streams))
+        return Stream(IteratorUtils.concat(streams))
 
     """
     Normal Methods
@@ -49,47 +49,48 @@ class Stream():
         self.__iterable = iterable
 
     def filter(self, predicate):
-        self.__iterable = StreamUtils.filter(self.__iterable, predicate)
+        self.__iterable = IteratorUtils.filter(self.__iterable, predicate)
         return self
 
     def map(self, mapper):
-        self.__iterable = StreamUtils.map(self.__iterable, mapper)
+        self.__iterable = IteratorUtils.map(self.__iterable, mapper)
         return self
 
     def flatMap(self, flatMapper):
-        self.__iterable = StreamUtils.flatMap(self.__iterable, flatMapper)
+        self.__iterable = IteratorUtils.flatMap(self.__iterable, flatMapper)
         return self
 
     def distinct(self, count):
-        self.__iterable = StreamUtils.distinct(self.__iterable, count)
+        self.__iterable = IteratorUtils.distinct(self.__iterable, count)
         return self
 
     def limit(self, count):
-        self.__iterable = StreamUtils.limit(self.__iterable, count)
+        self.__iterable = IteratorUtils.limit(self.__iterable, count)
         return self
 
     def skip(self, count):
-        self.__iterable = StreamUtils.skip(self.__iterable, count)
+        self.__iterable = IteratorUtils.skip(self.__iterable, count)
         return self
 
     def takeWhile(self, predicate):
-        self.__iterable = StreamUtils.takeWhile(self.__iterable, predicate)
+        self.__iterable = IteratorUtils.takeWhile(self.__iterable, predicate)
         return self
 
     def dropWhile(self, predicate):
-        self.__iterable = StreamUtils.dropWhile(self.__iterable, predicate)
+        self.__iterable = IteratorUtils.dropWhile(self.__iterable, predicate)
         return self
 
     """
     From here this method mustn't be called on infinite stream
     """
 
-    def sorted(self):
-        self.__iterable = sorted(self.__iterable)
+    def sorted(self, comparator=None):
+        self.__iterable = sorted(
+            self.__iterable, key=cmp_to_key(comparator)) if comparator else sorted(self.__iterable)
         return self
 
     def peek(self, function):
-        self.__iterable = StreamUtils.peek(self.__iterable, function)
+        self.__iterable = IteratorUtils.peek(self.__iterable, function)
         return self
 
     def forEach(self, function):
@@ -110,23 +111,26 @@ class Stream():
 
     def findFirst(self):
         for elem in self.__iterable:
-            return elem
-        return None
+            return Optional.of(elem)
+        return Optional.ofNullable(None)
 
     def findAny(self):
         return self.findFirst()
 
-    def reduce(self, identity, accumulator):
+    def reduce(self, accumulator, identity=None):
         result = identity
         for elem in self.__iterable:
-            result = accumulator(result, elem)
-        return result
+            if(result is None):
+                result = elem
+            else:
+                result = accumulator(result, elem)
+        return Optional.ofNullable(result)
 
     def min(self):
-        return min(self.__iterable)
+        return Optional.ofNullable(min(self.__iterable))
 
     def max(self):
-        return max(self.__iterable)
+        return Optional.ofNullable(max(self.__iterable))
 
     def count(self):
         return len(self.__iterable)

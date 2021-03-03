@@ -1,4 +1,5 @@
-class StreamUtils:
+
+class IteratorUtils:
 
     """
     Iterator Utils
@@ -19,9 +20,9 @@ class StreamUtils:
             yield generator()
 
     @staticmethod
-    def concat(*streams):
-        for stream in streams:
-            for elem in stream:
+    def concat(*iterables):
+        for iterator in iterables:
+            for elem in iterator:
                 yield elem
 
     """
