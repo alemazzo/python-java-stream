@@ -7,11 +7,19 @@ from .optional import Optional
 class Stream():
 
     """
-    A sequence of elements supporting sequential operations. The following example illustrates an aggregate operation using Stream:
+    A sequence of elements supporting sequential operations. 
+
+    The following example illustrates an aggregate operation using 
+    Stream:
+
         result = Stream(elements)
                         .filter(lambda w: w.getColor() == RED)
                         .map(lambda w: w.getWeight())
                         .sum()
+
+    A stream pipeline, like the "widgets" example above, can be viewed as a query on the stream source.
+
+    A stream should be operated on (invoking an intermediate or terminal stream operation) only once. This rules out, for example, "forked" streams, where the same source feeds two or more pipelines, or multiple traversals of the same stream. A stream implementation may raise Exception if it detects that the stream is being reused.
     """
 
     """
