@@ -1,7 +1,7 @@
 # Python-Java-Stream
 Java Stream For Python
 ----
-https://pypi.org/project/Python-Java-Stream/
+https://pypi.org/project/java-stream/
 ----
 
 ## Install
