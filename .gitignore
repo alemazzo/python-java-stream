@@ -2,3 +2,4 @@ __pycache__/
 build/
 dist/
 Python_Java_Stream.egg-info/
+java_stream.egg-info/
