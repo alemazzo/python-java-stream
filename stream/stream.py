@@ -94,7 +94,7 @@ class Stream():
         :param *Stream streams: the streams to concat
         :return: the concatenation of the input streams
         '''
-        return Stream(IteratorUtils.concat(streams))
+        return Stream(IteratorUtils.concat(*streams))
 
     """
     Normal Methods
@@ -196,7 +196,7 @@ class Stream():
         :param Consumer consumer: action to perform on the elements as they are consumed from the stream
         :return: the new stream
         '''
-        return Stream(IteratorUtils.peek(self.__iterable, function))
+        return Stream(IteratorUtils.peek(self.__iterable, consumer))
 
     def forEach(self, function):
         '''
@@ -301,7 +301,11 @@ class Stream():
 
         :return: the count of elements in this stream
         '''
-        return len(self.__iterable)
+        count = 0
+        for elem in self.__iterable:
+            count += 1
+
+        return count
 
     def toList(self):
         '''
@@ -326,3 +330,6 @@ class Stream():
         :return: the iterator over the elements in this stream
         '''
         return self.__iterable
+
+    def __eq__(self, value):
+        return self.__iterable == value.__iterable

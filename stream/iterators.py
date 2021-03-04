@@ -21,8 +21,8 @@ class IteratorUtils:
 
     @staticmethod
     def concat(*iterables):
-        for iterator in iterables:
-            for elem in iterator:
+        for iterable in iterables:
+            for elem in iterable.iterator():
                 yield elem
 
     """
