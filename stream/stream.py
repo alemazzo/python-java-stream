@@ -7,9 +7,9 @@ from .optional import Optional
 class Stream():
 
     """
-    A sequence of elements supporting sequential operations. 
+    A sequence of elements supporting sequential operations.
 
-    The following example illustrates an aggregate operation using 
+    The following example illustrates an aggregate operation using
     Stream:
 
         result = Stream(elements)
@@ -323,13 +323,18 @@ class Stream():
         '''
         return set(self.__iterable)
 
-    def iterator(self):
+    def __iter__(self):
         '''
         Returns an iterator over the elements in this stream.
 
         :return: the iterator over the elements in this stream
         '''
-        return self.__iterable
+        return iter(self.__iterable)
 
     def __eq__(self, value):
+        '''
+        Check if this stream is equal to the specified stream
+
+        :return: True if the streams match, False otherwise
+        '''
         return self.__iterable == value.__iterable

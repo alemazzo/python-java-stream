@@ -22,7 +22,7 @@ class IteratorUtils:
     @staticmethod
     def concat(*iterables):
         for iterable in iterables:
-            for elem in iterable.iterator():
+            for elem in iterable:
                 yield elem
 
     """
@@ -42,7 +42,7 @@ class IteratorUtils:
     @staticmethod
     def flatMap(iterable, mapper):
         for elem in iterable:
-            for internal in mapper(elem).iterator():
+            for internal in mapper(elem):
                 yield internal
 
     @staticmethod

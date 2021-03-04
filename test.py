@@ -22,7 +22,7 @@ class TestStream(unittest.TestCase):
 
     def test_iterate(self):
         index = 0
-        s = Stream.iterate(index, lambda i: i + 1).iterator()
+        s = Stream.iterate(index, lambda i: i + 1)
 
         for elem in s:
             self.assertEqual(elem, index)
@@ -32,7 +32,7 @@ class TestStream(unittest.TestCase):
 
     def test_generate(self):
         index = 0
-        s = Stream.generate(lambda: 1).iterator()
+        s = Stream.generate(lambda: 1)
 
         for elem in s:
             self.assertEqual(elem, 1)
@@ -156,6 +156,13 @@ class TestStream(unittest.TestCase):
         self.assertEqual(Stream.of(1, 2, 3, 4).count(), 4)
         self.assertEqual(Stream.empty().count(), 0)
         self.assertEqual(Stream.generate(lambda: 1).limit(10).count(), 10)
+
+    def test_iter(self):
+        index = 1
+        s = Stream.of(1, 2, 3)
+        for elem in s:
+            self.assertEqual(elem, index)
+            index += 1
 
 
 if __name__ == '__main__':
