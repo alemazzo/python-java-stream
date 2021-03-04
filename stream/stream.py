@@ -1,4 +1,5 @@
 from functools import cmp_to_key
+import random
 
 from .iterators import IteratorUtils
 from .optional import Optional
@@ -95,6 +96,17 @@ class Stream():
         :return: the concatenation of the input streams
         '''
         return Stream(IteratorUtils.concat(*streams))
+
+    @staticmethod
+    def randint(lower, upper):
+        '''
+        Returns an infinite stream of random integer in range [a, b], including both end points.
+
+        :param int lower: min value for random numbers
+        :param int upper: max value for random numbers
+        :return: the infinite random stream
+        '''
+        return Stream.generate(lambda: random.randint(lower, upper))
 
     """
     Normal Methods
