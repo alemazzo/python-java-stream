@@ -6,5 +6,5 @@ https://pypi.org/project/java-stream/
 
 ## Install
 ```bash
-pip install python-java-stream
+pip install java-stream
 ```
