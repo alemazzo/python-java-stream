@@ -22,8 +22,7 @@ class ParallelUtils:
         try:
             while True:
                 index += 1
-                with ParallelUtils.iterLock:
-                    elem = next(iterable)
+                elem = next(iterable)
                 if(index < pre):
                     continue
                 if(index % offset == pre):
@@ -33,19 +32,20 @@ class ParallelUtils:
 
     @staticmethod
     def _iterator(iterable):
-        while True:
-            try:
+        try:
+            while True:
                 yield next(iterable)
-            except:
-                return
+        except:
+            return
 
     @staticmethod
     def cloneSplit(iterable, count):
-        return [ParallelUtils._iterator(iterable) for _ in range(count)]
+        it = ParallelUtils._iterator(iterable)
+        return [it for _ in range(count)]
 
     @staticmethod
     def split(iterable, count):
-        return [ParallelUtils.splitted(it, index, count) for index, it in enumerate(iter(tee(iterable, count)))]
+        return [ParallelUtils.splitted(it, index, count) for index, it in enumerate(tee(iterable, count))]
 
     @staticmethod
     def finiteSplit(iterable, count):
@@ -66,8 +66,8 @@ class ParallelStream(Stream):
 
     def __init__(self, iterable):
 
-        self.__streams = [StreamThread(Stream(iterator))
-                          for iterator in ParallelUtils.cloneSplit(iterable, self.PROCESS)]
+        self.__streams = [StreamThread(Stream(it))
+                          for it in ParallelUtils.split(iterable, self.PROCESS)]
 
         for _stream in self.__streams:
             _stream.start()
@@ -234,7 +234,11 @@ class ParallelStream(Stream):
         results = [_stream.getResult()
                    for _stream in self.__streams if _stream.getResult()]
 
-        return sum(results)
+        res = 0
+        for r in results:
+            res += r
+
+        return res
 
     def toList(self):
 
@@ -244,8 +248,8 @@ class ParallelStream(Stream):
         for _stream in self.__streams:
             _stream.join()
 
-        sublists = [_stream.getResult().get()
-                    for _stream in self.__streams if _stream.getResult().isPresent()]
+        sublists = [_stream.getResult()
+                    for _stream in self.__streams]
 
         results = []
         for sub in sublists:
@@ -260,8 +264,8 @@ class ParallelStream(Stream):
         for _stream in self.__streams:
             _stream.join()
 
-        subsets = [_stream.getResult().get()
-                   for _stream in self.__streams if _stream.getResult().isPresent()]
+        subsets = [_stream.getResult()
+                   for _stream in self.__streams]
 
         results = set()
         for sub in subsets:
@@ -272,3 +276,9 @@ class ParallelStream(Stream):
 
     def get(self):
         return self.__streams
+
+    def __eq__(self, other):
+        return self.toSet() == other.toSet()
+
+    def __iter__(self):
+        return iter(self.toList())
