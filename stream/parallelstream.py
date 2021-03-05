@@ -46,11 +46,11 @@ class ParallelUtils:
     def split(iterable, count):
         return [ParallelUtils.splitted(it, index, count) for index, it in enumerate(tee(iterable, count))]
 
-    @staticmethod
+    @ staticmethod
     def finiteSplit(iterable, count):
         elements = list(iterable)
         chunks = [[] for _ in range(count)]
-        chunk_size = int(len(elements) / count)
+        chunk_size = int(len(elements) / count) + 1
 
         for index, elem in enumerate(elements):
             chunk = int(index / chunk_size)
