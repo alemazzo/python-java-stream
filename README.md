@@ -135,9 +135,9 @@ Here some example of how to use Streams:
 Stream.randint(1, 100).limit(100).toList()
 ```
 
-* Generate a list of the numbers from 1 to 100
+* Print the numbers from 1 to 100
 ```py
-Stream.iterate(1, lambda i: i + 1).limit(100).toList()
+Stream.iterate(1, lambda i: i + 1).limit(100).forEach(print)
 ```
 
 * Generate a list of squares of the number from 1 to 100
@@ -148,6 +148,16 @@ Stream.iterate(1, lambda i: i + 1).map(lambda x: x**2).limit(100).toList()
 * Generate a list of 0 with a lenght of 100
 ```py
 Stream.generate(lambda: 0).limit(100).toList()
+```
+
+* Generate a set of the first 100 odds number
+```py
+Stream.odds().limit(100).toSet()
+```
+
+* Generate a list of all the primes number smaller than 100
+```py
+Stream.primes().filter(lambda x: x < 100).toList()
 ```
 
 
