@@ -97,76 +97,16 @@ class Stream():
         '''
         return Stream(IteratorUtils.concat(*streams))
 
-    """
-    Already Implemented Method
-    """
-
     @staticmethod
-    def randint(lower, upper):
-        '''
-        Returns an infinite stream of random integer in range [a, b], including both end points.
-
-        :param int lower: min value for random numbers
-        :param int upper: max value for random numbers
-        :return: the infinite random stream
-        '''
-        return Stream.generate(lambda: random.randint(lower, upper))
-
-    @staticmethod
-    def integers():
-        '''
-        Returns an infinite stream of integer from 0 to infinity
-
-        :return: the infinite stream
-        '''
-        return Stream.iterate(0, lambda i: i + 1)
-
-    @staticmethod
-    def odds():
-        '''
-        Returns an infinite stream of odds number from 0 to infinity
-
-        :return: the infinite stream
-        '''
-        return Stream.iterate(1, lambda i: i + 2)
-
-    @staticmethod
-    def evens():
-        '''
-        Returns an infinite stream of evens number from 0 to infinity
-
-        :return: the infinite stream
-        '''
-        return Stream.iterate(0, lambda i: i + 2)
-
-    @staticmethod
-    def primes():
-        '''
-        Returns an infinite stream of primes number from 2 to infinity
-
-        :return: the infinite stream
-        '''
-        def prime_generator():
-            yield 2
-            primes = [2]
-            actual = 1
-            while True:
-                actual += 2
-                for prime in primes:
-                    if actual % prime == 0:
-                        break
-                else:
-                    primes.append(actual)
-                    yield actual
-
-        return Stream(prime_generator())
+    def booleans():
+        return Stream.generate(lambda: random.randint(0, 1) == 1)
 
     """
     Normal Methods
     """
 
     def __init__(self, iterable):
-        self.__iterable = iterable
+        self.iterable = iterable
 
     def filter(self, predicate):
         '''
@@ -175,7 +115,8 @@ class Stream():
         :param function predicate: predicate to apply to each element to determine if it should be included
         :return: the new stream
         '''
-        return Stream(IteratorUtils.filter(self.__iterable, predicate))
+        self.iterable = IteratorUtils.filter(self.iterable, predicate)
+        return self
 
     def map(self, mapper):
         '''
@@ -184,7 +125,8 @@ class Stream():
         :param function mapper: function to apply to each element
         :return: the new stream
         '''
-        return Stream(IteratorUtils.map(self.__iterable, mapper))
+        self.iterable = IteratorUtils.map(self.iterable, mapper)
+        return self
 
     def flatMap(self, flatMapper):
         '''
@@ -193,7 +135,8 @@ class Stream():
         :param function flatMapper: function to apply to each element which produces a stream of new values
         :return: the new stream
         '''
-        return Stream(IteratorUtils.flatMap(self.__iterable, flatMapper))
+        self.iterable = IteratorUtils.flatMap(self.iterable, flatMapper)
+        return self
 
     def distinct(self):
         '''
@@ -201,7 +144,8 @@ class Stream():
 
         :return: the new stream
         '''
-        return Stream(IteratorUtils.distinct(self.__iterable))
+        self.iterable = IteratorUtils.distinct(self.iterable)
+        return self
 
     def limit(self, count):
         '''
@@ -210,7 +154,8 @@ class Stream():
         :param int count:  the number of elements the stream should be limited to
         :return: the new stream
         '''
-        return Stream(IteratorUtils.limit(self.__iterable, count))
+        self.iterable = IteratorUtils.limit(self.iterable, count)
+        return self
 
     def skip(self, count):
         '''
@@ -219,7 +164,8 @@ class Stream():
         :param int count:  the number of leading elements to skip
         :return: the new stream
         '''
-        return Stream(IteratorUtils.skip(self.__iterable, count))
+        self.iterable = IteratorUtils.skip(self.iterable, count)
+        return self
 
     def takeWhile(self, predicate):
         '''
@@ -228,7 +174,8 @@ class Stream():
         :param Predicate predicate:  predicate to apply to elements to determine the longest prefix of elements.
         :return: the new stream
         '''
-        return Stream(IteratorUtils.takeWhile(self.__iterable, predicate))
+        self.iterable = IteratorUtils.takeWhile(self.iterable, predicate)
+        return self
 
     def dropWhile(self, predicate):
         '''
@@ -237,7 +184,8 @@ class Stream():
         :param Predicate predicate:  predicate to apply to elements to determine the longest prefix of elements.
         :return: the new stream
         '''
-        return Stream(IteratorUtils.dropWhile(self.__iterable, predicate))
+        self.iterable = IteratorUtils.dropWhile(self.iterable, predicate)
+        return self
 
     """
     From here this method mustn't be called on infinite stream
@@ -250,9 +198,10 @@ class Stream():
         :param Comparator comparator: Comparator to be used to compare stream elements - if null default comparator is used
         :return: the new stream
         '''
-        return Stream(sorted(
-            self.__iterable, key=cmp_to_key(comparator))) if comparator is not None else Stream(sorted(
-                self.__iterable))
+        self.iterable = iter(sorted(
+            self.iterable, key=cmp_to_key(comparator))) if comparator is not None else iter(sorted(
+                self.iterable))
+        return self
 
     def peek(self, consumer):
         '''
@@ -261,7 +210,8 @@ class Stream():
         :param Consumer consumer: action to perform on the elements as they are consumed from the stream
         :return: the new stream
         '''
-        return Stream(IteratorUtils.peek(self.__iterable, consumer))
+        self.iterable = IteratorUtils.peek(self.iterable, consumer)
+        return self
 
     def forEach(self, function):
         '''
@@ -270,7 +220,7 @@ class Stream():
         :param Function function: action to perform on the elements
         :return: None
         '''
-        for elem in self.__iterable:
+        for elem in self.iterable:
             function(elem)
 
     def anyMatch(self, predicate):
@@ -280,7 +230,7 @@ class Stream():
         :param Predicate predicate: predicate to apply to elements of this stream
         :return: True if any elements of the stream match the provided predicate, otherwise False
         '''
-        return any([predicate(elem) for elem in self.__iterable])
+        return any([predicate(elem) for elem in self.iterable])
 
     def allMatch(self, predicate):
         '''
@@ -289,7 +239,7 @@ class Stream():
         :param Predicate predicate: predicate to apply to elements of this stream
         :return: True if either all elements of the stream match the provided predicate or the stream is empty, otherwise False
         '''
-        return all([predicate(elem) for elem in self.__iterable])
+        return all([predicate(elem) for elem in self.iterable])
 
     def noneMatch(self, predicate):
         '''
@@ -306,7 +256,7 @@ class Stream():
 
         :return: an Optional describing the first element of this stream, or an empty Optional if the stream is empty
         '''
-        for elem in self.__iterable:
+        for elem in self.iterable:
             return Optional.of(elem)
         return Optional.ofNullable(None)
 
@@ -327,7 +277,7 @@ class Stream():
         :return: the result of reduction
         '''
         result = identity
-        for elem in self.__iterable:
+        for elem in self.iterable:
             if(result is None):
                 result = elem
             else:
@@ -341,7 +291,7 @@ class Stream():
         :param Comparator comparator: Comparator to compare elements of this stream - if null default comparator is used
         :return: an Optional describing the minimum element of this stream, or an empty Optional if the stream is empty
         '''
-        elements = list(self.__iterable)
+        elements = list(self.iterable)
         if len(elements) == 0:
             return Optional.empty()
 
@@ -354,7 +304,7 @@ class Stream():
         :param Comparator comparator: Comparator to compare elements of this stream - if null default comparator is used
         :return: an Optional describing the maximum element of this stream, or an empty Optional if the stream is empty
         '''
-        elements = list(self.__iterable)
+        elements = list(self.iterable)
         if len(elements) == 0:
             return Optional.empty()
         return Optional.ofNullable(max(elements, key=cmp_to_key(comparator))) if comparator is not None else Optional.ofNullable(max(elements))
@@ -374,7 +324,7 @@ class Stream():
         :return: the count of elements in this stream
         '''
         count = 0
-        for elem in self.__iterable:
+        for elem in self.iterable:
             count += 1
 
         return count
@@ -385,7 +335,7 @@ class Stream():
 
         :return: the list of elements in this stream
         '''
-        return list(self.__iterable)
+        return list(self.iterable)
 
     def toSet(self):
         '''
@@ -393,7 +343,7 @@ class Stream():
 
         :return: the set of elements in this stream
         '''
-        return set(self.__iterable)
+        return set(self.iterable)
 
     def __iter__(self):
         '''
@@ -401,7 +351,7 @@ class Stream():
 
         :return: the iterator over the elements in this stream
         '''
-        return iter(self.__iterable)
+        return iter(self.iterable)
 
     def __eq__(self, value):
         '''
@@ -409,4 +359,4 @@ class Stream():
 
         :return: True if the streams match, False otherwise
         '''
-        return self.__iterable == value.__iterable
+        return self.toSet() == value.toSet()
