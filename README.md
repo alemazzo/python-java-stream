@@ -212,17 +212,17 @@ Project Link: [https://github.com/alemazzo/python-java-stream](https://github.co
 [contributors-shield]: https://img.shields.io/github/contributors/alemazzo/python-java-stream.svg?style=flat-square
 [contributors-url]: https://github.com/alemazzo/python-java-stream/graphs/contributors
 
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=flat-square
+[forks-shield]: https://img.shields.io/github/forks/alemazzo/python-java-stream.svg?style=flat-square
 [forks-url]: https://github.com/alemazzo/python-java-stream/network/members
 
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=flat-square
+[stars-shield]: https://img.shields.io/github/stars/alemazzo/python-java-stream.svg?style=flat-square
 [stars-url]: https://github.com/alemazzo/python-java-stream/stargazers
 
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=flat-square
+[issues-shield]: https://img.shields.io/github/issues/alemazzo/python-java-stream.svg?style=flat-square
 [issues-url]: https://github.com/alemazzo/python-java-stream/issues
 
 
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=flat-square
+[license-shield]: https://img.shields.io/github/license/alemazzo/python-java-stream.svg?style=flat-square
 [license-url]: https://github.com/alemazzo/python-java-stream/blob/master/LICENSE
 
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
