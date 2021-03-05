@@ -70,18 +70,21 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+What is Stream?
 
-There are many great README templates available on GitHub, however, I didn't find one that really suit my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need.
+Stream represents a sequence of objects from a source, which supports aggregate operations. 
 
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should element DRY principles to the rest of your life :smile:
+Following are the characteristics of a Stream:
 
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue.
+* Sequence of elements − A stream provides a set of elements of specific type in a sequential manner. A stream gets/computes elements on demand. It never stores the elements.
 
-A list of commonly used resources that I find helpful are listed in the acknowledgements.
+* Source − Stream takes Collections, Arrays, or I/O resources as input source.
+
+* Aggregate operations − Stream supports aggregate operations like filter, map, limit, reduce, find, and so on.
+
+* Pipelining − Most of the stream operations return stream itself so that their result can be pipelined. These operations are called intermediate operations and their function is to take input, process them, and return output to the target. toList() and toSet() methods are terminals operation which is normally present at the end of the pipelining operation to mark the end of the stream.
+
+* Automatic iterations − Stream operations do the iterations internally over the source elements provided, in contrast to Collections where explicit iteration is required.
 
 ### Built With
 
