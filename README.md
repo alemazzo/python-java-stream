@@ -29,11 +29,9 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/alemazzo/python-java-stream">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
 
-  <h3 align="center">Python Stream</h3>
+
+  <h1 align="center">Python Stream</h1>
 
   <p align="center">
     The power of Java stream now available in Python
