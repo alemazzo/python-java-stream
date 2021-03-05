@@ -157,7 +157,7 @@ Stream.odds().limit(100).toSet()
 
 * Generate a list of all the primes number smaller than 100
 ```py
-Stream.primes().filter(lambda x: x < 100).toList()
+Stream.primes().takeWhile(lambda x: x < 100).toList()
 ```
 
 
