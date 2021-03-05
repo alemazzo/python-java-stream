@@ -94,12 +94,12 @@ Following are the characteristics of a Stream:
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+Follow this steps for install this tool in the right way.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
+That's all you need to use Streams:
+
 * python3
 ```sh
 sudo apt install python3
