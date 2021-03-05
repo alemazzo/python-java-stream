@@ -115,6 +115,10 @@ class Stream():
     def __init__(self, iterable):
         self.__iterable = iterable
 
+    def parallel(self):
+        from .parallelstream import ParallelStream
+        return ParallelStream(self.__iterable)
+
     def filter(self, predicate):
         '''
         Returns a stream consisting of the elements of this stream, additionally performing the provided action on each element as elements are consumed from the resulting stream.
