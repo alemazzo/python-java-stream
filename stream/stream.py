@@ -54,7 +54,7 @@ class Stream():
         :param *T elements: the elements of the new stream
         :return: the new stream
         '''
-        return Stream(list(elements))
+        return Stream(iter(list(elements)))
 
     @staticmethod
     def ofNullable(elem):
@@ -97,6 +97,10 @@ class Stream():
         '''
         return Stream(IteratorUtils.concat(*streams))
 
+    """
+    Already Implemented Method
+    """
+
     @staticmethod
     def randint(lower, upper):
         '''
@@ -107,6 +111,55 @@ class Stream():
         :return: the infinite random stream
         '''
         return Stream.generate(lambda: random.randint(lower, upper))
+
+    @staticmethod
+    def integers():
+        '''
+        Returns an infinite stream of integer from 0 to infinity
+
+        :return: the infinite stream
+        '''
+        return Stream.iterate(0, lambda i: i + 1)
+
+    @staticmethod
+    def odds():
+        '''
+        Returns an infinite stream of odds number from 0 to infinity
+
+        :return: the infinite stream
+        '''
+        return Stream.iterate(1, lambda i: i + 2)
+
+    @staticmethod
+    def evens():
+        '''
+        Returns an infinite stream of evens number from 0 to infinity
+
+        :return: the infinite stream
+        '''
+        return Stream.iterate(0, lambda i: i + 2)
+
+    @staticmethod
+    def primes():
+        '''
+        Returns an infinite stream of primes number from 2 to infinity
+
+        :return: the infinite stream
+        '''
+        def prime_generator():
+            yield 2
+            primes = [2]
+            actual = 1
+            while True:
+                actual += 2
+                for prime in primes:
+                    if actual % prime == 0:
+                        break
+                else:
+                    primes.append(actual)
+                    yield actual
+
+        return Stream(prime_generator())
 
     """
     Normal Methods
@@ -249,7 +302,7 @@ class Stream():
         :param Predicate predicate: predicate to apply to elements of this stream
         :return: True if either no elements of the stream match the provided predicate or the stream is empty, otherwise False
         '''
-        return len(self.__iterable) == 0 or not self.anyMatch(predicate)
+        return not self.anyMatch(predicate)
 
     def findFirst(self):
         '''
@@ -292,7 +345,11 @@ class Stream():
         :param Comparator comparator: Comparator to compare elements of this stream - if null default comparator is used
         :return: an Optional describing the minimum element of this stream, or an empty Optional if the stream is empty
         '''
-        return Optional.ofNullable(min(self.__iterable, key=cmp_to_key(comparator))) if comparator is not None else Optional.ofNullable(min(self.__iterable))
+        elements = list(self.__iterable)
+        if len(elements) == 0:
+            return Optional.empty()
+
+        return Optional.ofNullable(min(elements, key=cmp_to_key(comparator), default=None)) if comparator is not None else Optional.ofNullable(min(elements, default=None))
 
     def max(self, comparator=None):
         '''
@@ -301,7 +358,10 @@ class Stream():
         :param Comparator comparator: Comparator to compare elements of this stream - if null default comparator is used
         :return: an Optional describing the maximum element of this stream, or an empty Optional if the stream is empty
         '''
-        return Optional.ofNullable(max(self.__iterable, key=cmp_to_key(comparator))) if comparator is not None else Optional.ofNullable(max(self.__iterable))
+        elements = list(self.__iterable)
+        if len(elements) == 0:
+            return Optional.empty()
+        return Optional.ofNullable(max(elements, key=cmp_to_key(comparator))) if comparator is not None else Optional.ofNullable(max(elements))
 
     def sum(self):
         '''

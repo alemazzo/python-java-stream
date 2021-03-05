@@ -39,9 +39,8 @@ class ParallelUtils:
             return
 
     @staticmethod
-    def cloneSplit(iterable, count):
-        it = ParallelUtils._iterator(iterable)
-        return [it for _ in range(count)]
+    def sameSplit(iterable, count):
+        return [ParallelUtils._iterator(iterable) for _ in range(count)]
 
     @staticmethod
     def split(iterable, count):
@@ -67,7 +66,7 @@ class ParallelStream(Stream):
     def __init__(self, iterable):
 
         self.__streams = [StreamThread(Stream(it))
-                          for it in ParallelUtils.split(iterable, self.PROCESS)]
+                          for it in ParallelUtils.sameSplit(iterable, self.PROCESS)]
 
         for _stream in self.__streams:
             _stream.start()
@@ -117,6 +116,9 @@ class ParallelStream(Stream):
         for _stream in self.__streams:
             _stream.forEach(function)
 
+        for _stream in self.__streams:
+            _stream.join()
+
         return self
 
     def anyMatch(self, predicate):
@@ -127,8 +129,8 @@ class ParallelStream(Stream):
         for _stream in self.__streams:
             _stream.join()
 
-        results = [_stream.getResult().get()
-                   for _stream in self.__streams if _stream.getResult().isPresent()]
+        results = [_stream.getResult()
+                   for _stream in self.__streams]
 
         return Stream(results).anyMatch(lambda x: x)
 
@@ -140,8 +142,8 @@ class ParallelStream(Stream):
         for _stream in self.__streams:
             _stream.join()
 
-        results = [_stream.getResult().get()
-                   for _stream in self.__streams if _stream.getResult().isPresent()]
+        results = [_stream.getResult()
+                   for _stream in self.__streams]
 
         return Stream(results).allMatch(lambda x: x)
 
@@ -153,10 +155,10 @@ class ParallelStream(Stream):
         for _stream in self.__streams:
             _stream.join()
 
-        results = [_stream.getResult().get()
-                   for _stream in self.__streams if _stream.getResult().isPresent()]
+        results = [_stream.getResult()
+                   for _stream in self.__streams]
 
-        return Stream(results).noneMatch(lambda x: x)
+        return Stream(results).allMatch(lambda x: x)
 
     def findAny(self):
 
@@ -210,10 +212,10 @@ class ParallelStream(Stream):
 
         return Stream(results).max(comparator)
 
-    def sum(self, comparator=None):
+    def sum(self):
 
         for _stream in self.__streams:
-            _stream.sum(comparator)
+            _stream.sum()
 
         for _stream in self.__streams:
             _stream.join()
@@ -221,7 +223,7 @@ class ParallelStream(Stream):
         results = [_stream.getResult().get()
                    for _stream in self.__streams if _stream.getResult().isPresent()]
 
-        return Stream(results).sum(comparator)
+        return Stream(results).sum()
 
     def count(self):
 
@@ -277,8 +279,19 @@ class ParallelStream(Stream):
     def get(self):
         return self.__streams
 
+    def terminate(self):
+        for _stream in self.__streams:
+            _stream.terminate()
+
     def __eq__(self, other):
-        return self.toSet() == other.toSet()
+        return self.toSet() == set(other)
 
     def __iter__(self):
-        return iter(self.toList())
+
+        def _iter(iters):
+            for it in iters:
+                for elem in it:
+                    yield elem
+            self.terminate()
+
+        return _iter(self.__streams)

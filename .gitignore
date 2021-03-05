@@ -4,3 +4,4 @@ dist/
 java_stream.egg-info/
 main.py
 parallel_test.py
+performance.py
