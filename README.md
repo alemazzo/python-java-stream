@@ -1,8 +1,9 @@
 # Python-Java-Stream
-Java Stream For Python
-----
-https://pypi.org/project/java-stream/
-----
+
+## Overview
+
+Java Stream For Python.
+Project available at https://pypi.org/project/java-stream/
 
 ## Install
 ```bash
