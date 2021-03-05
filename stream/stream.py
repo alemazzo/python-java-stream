@@ -44,7 +44,7 @@ class Stream():
         :param T elem: the single element
         :return: a singleton sequential stream
         '''
-        return Stream([elem])
+        return Stream(iter([elem]))
 
     @staticmethod
     def of(*elements):
