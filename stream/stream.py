@@ -1,8 +1,8 @@
 from functools import cmp_to_key
 import random
 
-from .iterators import IteratorUtils
-from .optional import Optional
+from .util.iterators import IteratorUtils
+from .util.optional import Optional
 
 
 class Stream():
@@ -113,7 +113,7 @@ class Stream():
         Returns a stream consisting of the elements of this stream, additionally performing the provided action on each element as elements are consumed from the resulting stream.
 
         :param function predicate: predicate to apply to each element to determine if it should be included
-        :return: the new stream
+        :return: self
         '''
         self.iterable = IteratorUtils.filter(self.iterable, predicate)
         return self
@@ -123,7 +123,7 @@ class Stream():
         Returns a stream consisting of the results of applying the given function to the elements of this stream.
 
         :param function mapper: function to apply to each element
-        :return: the new stream
+        :return: self
         '''
         self.iterable = IteratorUtils.map(self.iterable, mapper)
         return self
@@ -133,7 +133,7 @@ class Stream():
         Returns a stream consisting of the results of replacing each element of this stream with the contents of a mapped stream produced by applying the provided mapping function to each element. Each mapped stream is closed after its contents have been placed into this stream. (If a mapped stream is null an empty stream is used, instead.)
 
         :param function flatMapper: function to apply to each element which produces a stream of new values
-        :return: the new stream
+        :return: self
         '''
         self.iterable = IteratorUtils.flatMap(self.iterable, flatMapper)
         return self
@@ -142,7 +142,7 @@ class Stream():
         '''
         Returns a stream consisting of the distinct elements of this stream.
 
-        :return: the new stream
+        :return: self
         '''
         self.iterable = IteratorUtils.distinct(self.iterable)
         return self
@@ -152,7 +152,7 @@ class Stream():
         Returns a stream consisting of the elements of this stream, truncated to be no longer than maxSize in length.
 
         :param int count:  the number of elements the stream should be limited to
-        :return: the new stream
+        :return: self
         '''
         self.iterable = IteratorUtils.limit(self.iterable, count)
         return self
@@ -162,7 +162,7 @@ class Stream():
         Returns a stream consisting of the remaining elements of this stream after discarding the first n elements of the stream. If this stream contains fewer than n elements then an empty stream will be returned.
 
         :param int count:  the number of leading elements to skip
-        :return: the new stream
+        :return: self
         '''
         self.iterable = IteratorUtils.skip(self.iterable, count)
         return self
@@ -172,7 +172,7 @@ class Stream():
         Returns a stream consisting of the longest prefix of elements taken from this stream that match the given predicate.
 
         :param Predicate predicate:  predicate to apply to elements to determine the longest prefix of elements.
-        :return: the new stream
+        :return: self
         '''
         self.iterable = IteratorUtils.takeWhile(self.iterable, predicate)
         return self
@@ -182,7 +182,7 @@ class Stream():
         Returns a stream consisting of the remaining elements of this stream after dropping the longest prefix of elements that match the given predicate.
 
         :param Predicate predicate:  predicate to apply to elements to determine the longest prefix of elements.
-        :return: the new stream
+        :return: self
         '''
         self.iterable = IteratorUtils.dropWhile(self.iterable, predicate)
         return self
@@ -196,7 +196,7 @@ class Stream():
         Returns a stream consisting of the elements of this stream, sorted according to the provided Comparator.
 
         :param Comparator comparator: Comparator to be used to compare stream elements - if null default comparator is used
-        :return: the new stream
+        :return: self
         '''
         self.iterable = iter(sorted(
             self.iterable, key=cmp_to_key(comparator))) if comparator is not None else iter(sorted(
@@ -208,7 +208,7 @@ class Stream():
         Returns a stream consisting of the elements of this stream, additionally performing the provided action on each element as elements are consumed from the resulting stream.
 
         :param Consumer consumer: action to perform on the elements as they are consumed from the stream
-        :return: the new stream
+        :return: self
         '''
         self.iterable = IteratorUtils.peek(self.iterable, consumer)
         return self

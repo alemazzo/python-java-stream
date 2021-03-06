@@ -4,7 +4,7 @@ import random
 from .stream import Stream
 
 
-class IntStream(Stream):
+class NumberStream(Stream):
 
     @staticmethod
     def integers():
@@ -13,7 +13,7 @@ class IntStream(Stream):
 
         :return: the infinite stream
         '''
-        return IntStream(Stream.iterate(0, lambda i: i + 1))
+        return NumberStream(Stream.iterate(0, lambda i: i + 1))
 
     @staticmethod
     def odds():
@@ -22,7 +22,7 @@ class IntStream(Stream):
 
         :return: the infinite stream
         '''
-        return IntStream(Stream.iterate(1, lambda i: i + 2))
+        return NumberStream(Stream.iterate(1, lambda i: i + 2))
 
     @staticmethod
     def evens():
@@ -31,7 +31,7 @@ class IntStream(Stream):
 
         :return: the infinite stream
         '''
-        return IntStream(Stream.iterate(0, lambda i: i + 2))
+        return NumberStream(Stream.iterate(0, lambda i: i + 2))
 
     @staticmethod
     def primes():
@@ -53,7 +53,7 @@ class IntStream(Stream):
                     primes.append(actual)
                     yield actual
 
-        return IntStream(prime_generator())
+        return NumberStream(prime_generator())
 
     @staticmethod
     def randint(lower, upper):
@@ -64,7 +64,7 @@ class IntStream(Stream):
         :param int upper: max value for random numbers
         :return: the infinite random stream
         '''
-        return IntStream(Stream.generate(lambda: random.randint(lower, upper)))
+        return NumberStream(Stream.generate(lambda: random.randint(lower, upper)))
 
     @staticmethod
     def random():
@@ -75,7 +75,7 @@ class IntStream(Stream):
         :param int upper: max value for random numbers
         :return: the infinite random stream
         '''
-        return IntStream(Stream.generate(random.random))
+        return NumberStream(Stream.generate(random.random))
 
     def __init__(self, _stream):
         if isinstance(_stream, Stream):
