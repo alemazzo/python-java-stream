@@ -14,6 +14,6 @@ setup(name='java-stream',
       author_email='developer.alessandro.mazzoli@gmail.com',
       license='GNU',
       packages=['stream'],
-      keywords=['iterator', 'generator', 'stream', 'data',
+      keywords=['query', 'iterator', 'generator', 'stream', 'data',
                 'functional', 'list', 'processing', 'java', 'filter', 'map', 'reduce', 'processing'],
       zip_safe=False)
