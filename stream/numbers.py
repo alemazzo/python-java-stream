@@ -130,49 +130,134 @@ class NumberStream(Stream):
         return _sum / _count
 
     def takeWhileSmallerThan(self, maximum):
+        '''
+        Returns a stream consisting of the longest prefix of elements taken from this stream that is smaller than the specified value
+
+        :return: self
+        '''
         return self.takeWhile(lambda x: x < maximum)
 
     def takeWhileSmallerOrEqualThan(self, maximum):
+        '''
+        Returns a stream consisting of the longest prefix of elements taken from this stream that is smaller or equal than the specified value
+
+        :return: self
+        '''
         return self.takeWhile(lambda x: x <= maximum)
 
     def takeWhileGreaterThan(self, minimum):
+        '''
+        Returns a stream consisting of the longest prefix of elements taken from this stream that is greater than the specified value
+
+        :return: self
+        '''
         return self.takeWhile(lambda x: x > minimum)
 
     def takeWhileGreaterOrEqualThan(self, minimum):
+        '''
+        Returns a stream consisting of the longest prefix of elements taken from this stream that is greater or equal than the specified value
+
+        :return: self
+        '''
         return self.takeWhile(lambda x: x >= minimum)
 
     def smallerThan(self, maximum):
+        '''
+        Returns a stream consisting of the elements of this stream that are smaller than the specified value
+
+        :param int maximum: the maximum value [exclusive]
+        :return: self
+        '''
         return self.filter(lambda x: x < maximum)
 
     def smallerOrEqualThan(self, maximum):
+        '''
+        Returns a stream consisting of the elements of this stream that are smaller or equal than the specified value
+
+        :param int maximum: the maximum value [inclusive]
+        :return: self
+        '''
         return self.filter(lambda x: x <= maximum)
 
     def greaterThan(self, minimum):
+        '''
+        Returns a stream consisting of the elements of this stream that are greater than the specified value
+
+        :param int minimum: the minimum value [exclusive]
+        :return: self
+        '''
         return self.filter(lambda x: x > minimum)
 
     def greaterOrEqualThan(self, minimum):
+        '''
+        Returns a stream consisting of the elements of this stream that are greater than the specified value
+
+        :param int minimum: the minimum value [inclusive]
+        :return: self
+        '''
         return self.filter(lambda x: x >= minimum)
 
     def multipleOf(self, number):
+        '''
+        Returns a stream consisting of the elements of this stream that are multiple of the specified value
+
+        :param int number: the value
+        :return: self
+        '''
         return self.filter(lambda x: x % number == 0)
 
     def square(self):
+        '''
+        Returns a stream consisting of the square of the element of this stream
+
+        :return: self
+        '''
         return self.pow(2)
 
     def cube(self):
+        '''
+        Returns a stream consisting of the cube of the element of this stream
+
+        :return: self
+        '''
         return self.pow(3)
 
     def pow(self, power):
+        '''
+        Returns a stream consisting of the pow to the specified value of the element of this stream
+
+        :return: self
+        '''
         return self.map(lambda x: x ** power)
 
     def sqrt(self):
+        '''
+        Returns a stream consisting of the square root of the element of this stream
+
+        :return: self
+        '''
         return self.map(math.sqrt)
 
     def log(self):
+        '''
+        Returns a stream consisting of the log of the element of this stream
+
+        :return: self
+        '''
         return self.map(math.log)
 
     def sin(self):
+        '''
+        Returns a stream consisting of the sin of the element of this stream
+
+        :return: self
+        '''
         return self.map(math.sin)
 
     def cos(self):
+        '''
+        Returns a stream consisting of the cos of the element of this stream
+
+        :return: self
+        '''
         return self.map(math.cos)
