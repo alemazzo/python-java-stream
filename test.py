@@ -10,11 +10,9 @@ class TestStream(unittest.TestCase):
 
     def test_of(self):
 
-        s = Stream.of(1, 2, 3)
-
-        self.assertEqual(s.count(), 3)
-        self.assertTrue(s.findAny().isPresent())
-        self.assertEqual(s.findAny().get(), 1)
+        self.assertEqual(Stream.of(1, 2, 3).count(), 3)
+        self.assertTrue(Stream.of(1, 2, 3).findAny().isPresent())
+        self.assertEqual(Stream.of(1, 2, 3).findAny().get(), 1)
 
         self.assertEqual(Stream.ofNullable(None), Stream.empty())
 
@@ -139,14 +137,14 @@ class TestStream(unittest.TestCase):
         self.assertEqual(elem.get(), -6)
 
     def test_min(self):
-        s = Stream.of(1, 2, 5, 4, 3)
-        self.assertTrue(s.min().isPresent())
-        self.assertEqual(s.min().get(), 1)
+        s = Stream.of(1, 2, 5, 4, 3).min()
+        self.assertTrue(s.isPresent())
+        self.assertEqual(s.get(), 1)
 
     def test_max(self):
-        s = Stream.of(1, 2, 5, 4, 3)
-        self.assertTrue(s.max().isPresent())
-        self.assertEqual(s.max().get(), 5)
+        s = Stream.of(1, 2, 5, 4, 3).max()
+        self.assertTrue(s.isPresent())
+        self.assertEqual(s.get(), 5)
 
     def test_sum(self):
         self.assertTrue(Stream.of(1, 2, 3, 4).sum().isPresent())
@@ -167,3 +165,4 @@ class TestStream(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+iterable
