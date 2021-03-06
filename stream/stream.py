@@ -99,12 +99,13 @@ class Stream():
 
     @staticmethod
     def constant(element):
+        '''
+        Return an infinite sequential stream where each element is the passed element
 
+        :param T elem: the element
+        :return: the new stream made of @element
+        '''
         return Stream.generate(lambda: element)
-
-    @staticmethod
-    def booleans():
-        return Stream.generate(lambda: random.randint(0, 1) == 1)
 
     """
     Normal Methods

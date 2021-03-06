@@ -79,11 +79,23 @@ class NumberStream(Stream):
 
     @staticmethod
     def range(start, end, step=1):
+        '''
+        Returns a stream of numbers from start to end with specified step.
+
+        :param int start: the start value
+        :param int end: the max value
+        :param int step: the step
+        :return: the new stream
+        '''
         return NumberStream(Stream.iterate(start, lambda i: i + step).takeWhile(lambda x: x <= end))
 
     @staticmethod
     def pi():
+        '''
+        Returns a stream with the digits of PI.
 
+        :return: the PI's digits stream
+        '''
         def pi_digits():
             "Generate n digits of Pi."
             k, a, b, a1, b1 = 2, 4, 1, 12, 4
@@ -105,6 +117,11 @@ class NumberStream(Stream):
             self.iterable = _stream
 
     def average(self):
+        '''
+        Get the average value of the element of the stream.
+
+        :return: the average value
+        '''
         _sum = 0
         _count = 0
         for elem in self:
