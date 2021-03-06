@@ -98,6 +98,11 @@ class Stream():
         return Stream(IteratorUtils.concat(*streams))
 
     @staticmethod
+    def constant(element):
+
+        return Stream.generate(lambda: element)
+
+    @staticmethod
     def booleans():
         return Stream.generate(lambda: random.randint(0, 1) == 1)
 

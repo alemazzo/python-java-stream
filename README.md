@@ -140,27 +140,27 @@ Stream.randint(1, 100).limit(100).toList()
 
 * Print the numbers from 1 to 100
 ```py
-Stream.iterate(1, lambda i: i + 1).limit(100).forEach(print)
+Stream.integers().limit(100).forEach(print)
 ```
 
-* Generate a list of squares of the number from 1 to 100
+* Generate a list made of zeros with a length of 10
 ```py
-Stream.iterate(1, lambda i: i + 1).map(lambda x: x**2).limit(100).toList()
+Stream.constant(0).limit(10).toList()
 ```
 
-* Generate a list of 0 with a lenght of 100
+* Generate a list of squares of the number from 1 to 20
 ```py
-Stream.generate(lambda: 0).limit(100).toList()
+IntStream.integers().map(lambda x: x**2).limit(20).toList()
 ```
 
 * Generate a set of the first 100 odds number
 ```py
-Stream.odds().limit(100).toSet()
+IntStream.odds().limit(100).toSet()
 ```
 
-* Generate a list of all the primes number smaller than 100
+* Generate a list of all the primes number smaller than 1000
 ```py
-Stream.primes().takeWhile(lambda x: x < 100).toList()
+Stream.primes().takeWhile(lambda x: x < 1000).toList()
 ```
 
 
