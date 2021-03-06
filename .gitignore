@@ -3,4 +3,3 @@ build/
 dist/
 java_stream.egg-info/
 main.py
-performance.py
