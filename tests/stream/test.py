@@ -1,4 +1,3 @@
-
 import unittest
 
 from stream import Stream
@@ -163,7 +162,3 @@ class TestStream(unittest.TestCase):
         for elem in s:
             self.assertEqual(elem, index)
             index += 1
-
-
-if __name__ == '__main__':
-    unittest.main()
