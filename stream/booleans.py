@@ -1,4 +1,4 @@
-from .stream import Stream
+from stream import Stream
 import random
 
 

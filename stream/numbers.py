@@ -77,11 +77,35 @@ class NumberStream(Stream):
         '''
         return NumberStream(Stream.generate(random.random))
 
+    @staticmethod
+    def range(start, end, step=1):
+        return NumberStream(Stream.iterate(start, lambda i: i + step).takeWhile(lambda x: x <= end))
+
     def __init__(self, _stream):
         if isinstance(_stream, Stream):
             self.iterable = _stream.iterable
         else:
             self.iterable = _stream
+
+    def average(self):
+        _sum = 0
+        _count = 0
+        for elem in self:
+            _sum += elem
+            _count += 1
+        return _sum / _count
+
+    def takeWhileSmallerThan(self, maximum):
+        return self.takeWhile(lambda x: x < maximum)
+
+    def takeWhileSmallerOrEqualThan(self, maximum):
+        return self.takeWhile(lambda x: x <= maximum)
+
+    def takeWhileGreaterThan(self, minimum):
+        return self.takeWhile(lambda x: x > minimum)
+
+    def takeWhileGreaterOrEqualThan(self, minimum):
+        return self.takeWhile(lambda x: x >= minimum)
 
     def smallerThan(self, maximum):
         return self.filter(lambda x: x < maximum)
@@ -112,3 +136,9 @@ class NumberStream(Stream):
 
     def log(self):
         return self.map(math.log)
+
+    def sin(self):
+        return self.map(math.sin)
+
+    def cos(self):
+        return self.map(math.cos)

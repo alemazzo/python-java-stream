@@ -345,6 +345,14 @@ class Stream():
         '''
         return set(self.iterable)
 
+    def toNumberStream(self):
+        from .numbers import NumberStream
+        return NumberStream(self)
+
+    def toBooleanStream(self):
+        from .booleans import BooleanStream
+        return BooleanStream(self)
+
     def __iter__(self):
         '''
         Returns an iterator over the elements in this stream.
