@@ -28,8 +28,11 @@
 
 <!-- PROJECT LOGO -->
 <br />
-<p align="center">
 
+<p align="center">
+  <a href="https://github.com/alemazzo/python-java-stream">
+    <img src="res/stream.png" alt="Logo" width="80" height="80">
+  </a>
 
   <h1 align="center">Python Stream</h1>
 
