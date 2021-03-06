@@ -33,6 +33,6 @@ class BooleanStream(Stream):
 
     def __init__(self, _stream):
         if isinstance(_stream, Stream):
-            self.iterable = _stream.__iterable
+            self.iterable = _stream.iterable
         else:
             self.iterable = _stream
