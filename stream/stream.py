@@ -75,7 +75,7 @@ class Stream():
         :param UnaryOperator operator: a function to be applied to the previous element to produce a new element
         :return: a new sequential Stream
         '''
-        return Stream(IteratorUtils.iterate(seed, operator))
+        return Stream(lambda: IteratorUtils.iterate(seed, operator))
 
     @staticmethod
     def generate(supplier):
@@ -85,7 +85,7 @@ class Stream():
         :param Supplier supplier: the Supplier of generated elements
         :return: a new infinite sequential unordered Stream
         '''
-        return Stream(IteratorUtils.generate(supplier))
+        return Stream(lambda: IteratorUtils.generate(supplier))
 
     @staticmethod
     def concat(*streams):
@@ -98,79 +98,19 @@ class Stream():
         return Stream(IteratorUtils.concat(*streams))
 
     """
-    Already Implemented Method
-    """
-
-    @staticmethod
-    def randint(lower, upper):
-        '''
-        Returns an infinite stream of random integer in range [a, b], including both end points.
-
-        :param int lower: min value for random numbers
-        :param int upper: max value for random numbers
-        :return: the infinite random stream
-        '''
-        return Stream.generate(lambda: random.randint(lower, upper))
-
-    @staticmethod
-    def integers():
-        '''
-        Returns an infinite stream of integer from 0 to infinity
-
-        :return: the infinite stream
-        '''
-        return Stream.iterate(0, lambda i: i + 1)
-
-    @staticmethod
-    def odds():
-        '''
-        Returns an infinite stream of odds number from 0 to infinity
-
-        :return: the infinite stream
-        '''
-        return Stream.iterate(1, lambda i: i + 2)
-
-    @staticmethod
-    def evens():
-        '''
-        Returns an infinite stream of evens number from 0 to infinity
-
-        :return: the infinite stream
-        '''
-        return Stream.iterate(0, lambda i: i + 2)
-
-    @staticmethod
-    def primes():
-        '''
-        Returns an infinite stream of primes number from 2 to infinity
-
-        :return: the infinite stream
-        '''
-        def prime_generator():
-            yield 2
-            primes = [2]
-            actual = 1
-            while True:
-                actual += 2
-                for prime in primes:
-                    if actual % prime == 0:
-                        break
-                else:
-                    primes.append(actual)
-                    yield actual
-
-        return Stream(prime_generator())
-
-    """
     Normal Methods
     """
 
     def __init__(self, iterable):
+        def itS(it):
+            for elem in it:
+                yield elem
         self.__iterable = iterable
+        self.__iterable_supplier = lambda: itS(self.__iterable)
 
     def parallel(self):
         from .parallelstream import ParallelStream
-        return ParallelStream(self.__iterable)
+        return ParallelStream(self.__iterable_supplier)
 
     def filter(self, predicate):
         '''
