@@ -1,4 +1,6 @@
+
 import unittest
+
 from stream import Stream
 
 
@@ -165,4 +167,3 @@ class TestStream(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-iterable
