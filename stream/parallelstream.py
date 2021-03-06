@@ -7,9 +7,9 @@ from threading import Thread, Lock
 from time import sleep
 
 from stream.stream import Stream
-from stream.iterators import IteratorUtils
-from stream.optional import Optional
-from stream.threads import StreamThread
+from stream.util.iterators import IteratorUtils
+from stream.util.optional import Optional
+from stream.util.threads import StreamThread
 
 
 class ParallelUtils:
@@ -64,9 +64,10 @@ class ParallelStream(Stream):
     PROCESS = 8
 
     def __init__(self, iterable_supplier):
-        self.__iterable_supplier = iterable_supplier
-        self.__streams = [StreamThread(Stream(it))
-                          for it in ParallelUtils.sameSplit(self.__iterable_supplier(), self.PROCESS)]
+        self.__streams = []
+        for i in range(self.PROCESS):
+            self.__streams.append(StreamThread(
+                Stream(lambda: ParallelUtils.splitted(iterable_supplier(), i, self.PROCESS))))
 
         for _stream in self.__streams:
             _stream.start()
