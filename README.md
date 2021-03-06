@@ -31,7 +31,7 @@
 
 <p align="center">
   <a href="https://github.com/alemazzo/python-java-stream">
-    <img src="res/stream.png" alt="Logo" width="80" height="80">
+    <img src="res/stream.png" alt="Logo" width="200" height="200">
   </a>
 
   <h1 align="center">Python Stream</h1>
