@@ -6,7 +6,7 @@ echo $newversion > ./version
 
 rm -rf build
 rm -rf dist
-rm -rf Python_Java_Stream.egg-info
+rm -rf java_stream.egg-info
 
 python3 setup.py sdist bdist_wheel  
 twine upload dist/*
