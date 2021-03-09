@@ -3,9 +3,10 @@ from setuptools import setup, find_packages
 f = open('./version')
 
 major = 1
-minor = int(f.readline())
+minor = 5
+fix = int(f.readline())
 
-version = f"{major}.{minor}"
+version = f"{major}.{minor}.{fix}"
 
 this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
