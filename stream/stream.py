@@ -1,5 +1,4 @@
 from functools import cmp_to_key
-import random
 
 from .util.iterators import IteratorUtils
 from .util.optional import Optional
@@ -47,6 +46,7 @@ class Stream():
         return Stream(iter([elem]))
 
     @staticmethod
+    # skipcq: PYL-E0102
     def of(*elements):
         '''
         Returns a sequential ordered stream whose elements are the specified values.
@@ -256,12 +256,21 @@ class Stream():
         '''
         return not self.anyMatch(predicate)
 
-    def findFirst(self):
-        '''
-        Returns an Optional describing the first element of this stream, or an empty Optional if the stream is empty. If the stream has no encounter order, then any element may be returned.
+    def findFirst(self, predicate=None):
+        """
+        Returns an Optional describing the first element
+        (with optional filtering by a given predicate) of this stream,
+        or an empty Optional if the stream is empty.
+        If the stream has no encounter order, then any element may be returned.
 
-        :return: an Optional describing the first element of this stream, or an empty Optional if the stream is empty
-        '''
+        :param Predicate predicate: optional predicate to apply to elements
+        of this stream
+        :return: an Optional describing the first element of this stream,
+        or an empty Optional if the stream is empty
+        """
+        if predicate:
+            self.filter(predicate)
+
         for elem in self.iterable:
             return Optional.of(elem)
         return Optional.ofNullable(None)
