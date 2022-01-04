@@ -99,6 +99,26 @@ class Optional:
         else:
             emptyAction()
 
+    def orElse(self, value):
+        """
+        Returns the value if present, or a provided argument otherwise.
+        It's a safe alternative to get() method.
+
+        :return: the non-null value described by this Optional
+        or the value passed as an argument.
+        """
+        return self.__elem if self.isPresent() else value
+
+    def orElseGet(self, supplier):
+        """
+        Returns either a stored value, or calls a supplier otherwise.
+        It's a safe alternative to get() method.
+
+        :return: the non-null value described by this Optional
+        or the result of supplier argument.
+        """
+        return self.__elem if self.isPresent() else supplier()
+
     def filter(self, predicate):
         '''
         If a value is present, and the value matches the given predicate, returns an Optional describing the value, otherwise returns an empty Optional.

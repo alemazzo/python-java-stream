@@ -4,3 +4,5 @@ dist/
 .vscode/
 java_stream.egg-info/
 main.py
+.idea
+*venv*
